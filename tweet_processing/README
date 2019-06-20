@@ -1,0 +1,35 @@
+File Structure:
+resources - this folder contains the dictionaries for normalizing the tweet texts. These are Lexical normalisation dictionaries: UniMelb, UTDallas taken from https://noisy-text.github.io/norm-shared-task.html
+main.py - driver file
+preprocess.py - preprocess all of the data to get rid of junk chars in the input.
+topicmodel.py - contains wrapper functions to call the gensim LDA model.
+README - this file
+
+
+All code is in python 2, and requires gensim, nltk, and pandas.
+
+To run the code:
+
+Just call main.py and the user is prompted to choose number of topics, and number of words per topic.
+
+Brief implementation details:
+Our Tweet Topic Modeling occurs in the following steps (and corresponding files mentioned therein):
+
+1. Preprocessing and Text Normalization: This is mainly done in the preprocess.py
+
+The preprocess() function does the following:
+	a) remove html tags and URLs by regex matching.
+	b) remove @ from mentions, also by regex matching
+	c) remove trailing hashtags by simply reading the tweet tokens backwards and checking if they begin with the # sign, until a token is encountered that doesn't begin with a # when the loop breaks, and the remainder of the tokens are returned.
+	d) normalize text. This is done using Lexical normalisation dictionaries: UniMelb, UTDallas taken from https://noisy-text.github.io/norm-shared-task.html
+	e) remove stopwords
+
+2. Topic Modeling: This is done in topicmodel.py. This calls the gensim LDA topic model. There is a stemAndTokenize() function that performs stemming (Porter stemmer) and tokenization using NLTK. There are also functions to write the results to files in topicmodel.py.
+
+4. main.py:
+The main file performs the above steps by sequentially calling the above functions to produce the result files.
+
+Resultant files are produced at the above steps, such as womeninstem-preprocessed.csv and results-lda-k5-n10.txt (where lda is the model name, k = 5 is the number of topics, and n=10 is the number of words per topic). 
+
+
+
